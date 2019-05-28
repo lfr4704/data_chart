@@ -2,6 +2,7 @@ const express = require("express");
 const http = require("http");
 const socketIo = require("socket.io");
 
+console.log("running server.js");
 //Port from environment variable or default - 4001
 const port = process.env.PORT || 4001;
 
@@ -12,7 +13,7 @@ const io = socketIo(server);
 
 //Setting up a socket with the namespace "connection" for new sockets
 io.on("connection", socket => {
-    console.log("New client connected");
+    console.log(`New client connected on port ${port}`);
 
     //Here we listen on a new namespace called "incoming data"
     socket.on("incoming data", (data)=>{
@@ -22,6 +23,10 @@ io.on("connection", socket => {
 
     //A special namespace "disconnect" for when a client disconnects
     socket.on("disconnect", () => console.log("Client disconnected"));
+});
+
+server.listen(port, function(){
+  console.log(`listening on *:${port}`);
 });
 
 //simulation
